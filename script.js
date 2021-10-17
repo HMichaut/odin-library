@@ -13,7 +13,7 @@ function addBookToLibrary(title, author, pages, read) {
 }
 
 function createHeaders(table) {
-  let orderArrayHeader = ["Title","Author","Pages","Read"];
+  let orderArrayHeader = ["Title","Author","Pages","Read?", "Delete", "Read!"];
   let thead = document.createElement('thead');
   table.appendChild(thead);
   
@@ -32,7 +32,29 @@ function fillCells (tbody) {
       td.appendChild(document.createTextNode(myLibrary[i][key]));
       td.style.border = '1px solid black';
     });
+    const td_delete = tr.insertCell();
+    td_delete.addEventListener("click", () => {
+      deleteCell(i);
+      insertAllBooksInLibraryInTable();
+    });
+    td_delete.style.background = 'red';
+    td_delete.style.border = '1px solid black';
+    const td_change_read = tr.insertCell();
+    td_change_read.addEventListener("click", () => {
+      changeReadCell(i);
+      insertAllBooksInLibraryInTable();
+    });
+    td_change_read.style.background = 'green';
+    td_change_read.style.border = '1px solid black';
   }
+}
+
+function deleteCell(cell_id) {
+  myLibrary.splice(cell_id, 1);
+}
+
+function changeReadCell(cell_id) {
+  myLibrary[cell_id].read = true;
 }
 
 function insertAllBooksInLibraryInTable() {
@@ -74,52 +96,82 @@ function createForm() {
   function frm_crt_fun() {
                 
     // Create a form synamically
-    var form = document.createElement("form");
+    let form = document.createElement("form");
+
+    let label_title = document.createElement("Label");
+    label_title.innerHTML="Book Title";
 
     // Create an input element for title
-    var frm_title = document.createElement("input");
+    let frm_title = document.createElement("input");
     frm_title.setAttribute("type", "text");
     frm_title.setAttribute("name", "title");
     frm_title.setAttribute("placeholder", "book name");
 
+    let label_author = document.createElement("Label");
+    label_author.innerHTML="Author Name";
+
     // Create an input element for author
-    var frm_author = document.createElement("input");
+    let frm_author = document.createElement("input");
     frm_author.setAttribute("type", "text");
     frm_author.setAttribute("name", "author");
     frm_author.setAttribute("placeholder", "book author");
 
+    let label_pages = document.createElement("Label");
+    label_pages.innerHTML="Pages Number";
+
     // Create an input element for pages
-    var frm_pages = document.createElement("input");
+    let frm_pages = document.createElement("input");
     frm_pages.setAttribute("type", "number");
     frm_pages.setAttribute("name", "pages");
 
+    let label_read = document.createElement("Label");
+    label_read.innerHTML="Book Read?";
+
     // Create an input element for read
-    var frm_read = document.createElement("input");
+    let frm_read = document.createElement("input");
     frm_read.setAttribute("type", "checkbox");
     frm_read.setAttribute("name", "read");
 
     // create a submit button
-    var s = document.createElement("button");
+    let s = document.createElement("button");
     
     s.setAttribute("type", "button");
     s.innerHTML = "Add Book";
                   
     // Append the full name input to the form
+    form.appendChild(label_title);
+    form.appendChild(br.cloneNode()); 
     form.appendChild(frm_title); 
       
     // Inserting a line break
     form.appendChild(br.cloneNode()); 
+    form.appendChild(br.cloneNode()); 
       
     // Append the DOB to the form
+    form.appendChild(label_author);
+    form.appendChild(br.cloneNode()); 
     form.appendChild(frm_author); 
+
+    // Inserting a line break
+    form.appendChild(br.cloneNode()); 
     form.appendChild(br.cloneNode()); 
       
     // Append the emailID to the form
+    form.appendChild(label_pages);
+    form.appendChild(br.cloneNode()); 
     form.appendChild(frm_pages); 
+
+    // Inserting a line break
+    form.appendChild(br.cloneNode()); 
     form.appendChild(br.cloneNode()); 
       
     // Append the Password to the form
+    form.appendChild(label_read);
+    form.appendChild(br.cloneNode());
     form.appendChild(frm_read); 
+
+    // Inserting a line break
+    form.appendChild(br.cloneNode()); 
     form.appendChild(br.cloneNode()); 
       
     // Append the submit button to the form

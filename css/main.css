@@ -1,15 +1,11 @@
 button {
-  margin-top: 20px;
-  line-height: 60px;
+  margin-top: 5px;
+  margin-bottom: 15px;
+  line-height: 30px;
   font-weight: bold;
-  padding: 0 40px;
-  background: salmon;
+  background: green;
   border: none;
 }
 button:hover {
-  background: lightsalmon;
-}
-
-button:hover {
-  background: lightsalmon;
+  background: lightgreen;
 }
