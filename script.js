@@ -1,4 +1,13 @@
+let myLibraryJSON = localStorage.getItem('testObject');
 let myLibrary = [];
+
+if (myLibraryJSON !== null) {
+  for (let i = 0; i < JSON.parse(myLibraryJSON).length; i++) {
+    item = JSON.parse(myLibraryJSON)[i];
+    myLibrary.push(new Book(item.title, item.author, item.pages, item.read));
+  }
+}
+
 
 function Book(title, author, pages, read) {
   this.title = title
@@ -9,7 +18,7 @@ function Book(title, author, pages, read) {
 
 function addBookToLibrary(title, author, pages, read) {
   myLibrary.push(new Book(title, author, pages, read));
-  // insertAllBooksInLibraryInTable()
+  localStorage.setItem('testObject', JSON.stringify(myLibrary));
 }
 
 function createHeaders(table) {
@@ -51,10 +60,12 @@ function fillCells (tbody) {
 
 function deleteCell(cell_id) {
   myLibrary.splice(cell_id, 1);
+  localStorage.setItem('testObject', JSON.stringify(myLibrary));
 }
 
 function changeReadCell(cell_id) {
   myLibrary[cell_id].read = true;
+  localStorage.setItem('testObject', JSON.stringify(myLibrary));
 }
 
 function insertAllBooksInLibraryInTable() {
@@ -82,9 +93,6 @@ function deleteForm() {
   let new_form = document.body.appendChild(document.createElement('p'));
   new_form.setAttribute('id', 'frm_dwn');
   let old_form = document.getElementById("frm_dwn");
-  console.log("test");
-  console.log(new_form);
-  console.log(old_form);
   old_form.parentNode.replaceChild(new_form, old_form);
 }
 
@@ -187,6 +195,6 @@ function createForm() {
   frm_crt_fun()
 }
 
-addBookToLibrary('The Hobbit', 'J.R.R. Tolkien', 295, false);
-addBookToLibrary('test title', 'test author', 15, true);
+// addBookToLibrary('The Hobbit', 'J.R.R. Tolkien', 295, false);
+// addBookToLibrary('test title', 'test author', 15, true);
 insertAllBooksInLibraryInTable();
