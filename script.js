@@ -9,12 +9,7 @@ function Book(title, author, pages, read) {
 
 function addBookToLibrary(title, author, pages, read) {
   myLibrary.push(new Book(title, author, pages, read));
-}
-
-function logAllBooksInLibrary() {
-  for (let i = 0; i < myLibrary.length; i++) {
-    console.log(myLibrary[i].info());
-  }
+  // insertAllBooksInLibraryInTable()
 }
 
 function createHeaders(table) {
@@ -29,10 +24,9 @@ function createHeaders(table) {
   }
 }
 
-function fillCells (table) {
+function fillCells (tbody) {
   for (let i = 0; i < myLibrary.length; i++) {
-    const tr = table.insertRow();
-    console.log(i)
+    const tr = tbody.insertRow();
     Object.keys(myLibrary[i]).forEach(function(key, j) {
       const td = tr.insertCell();
       td.appendChild(document.createTextNode(myLibrary[i][key]));
@@ -42,17 +36,105 @@ function fillCells (table) {
 }
 
 function insertAllBooksInLibraryInTable() {
-  const body = document.body,
-        tbl = document.createElement('table');
-  tbl.style.width = '100px';
-  tbl.style.border = '1px solid black';
-  createHeaders(tbl)
-  fillCells (tbl)
-  body.appendChild(tbl);
+  let tbl = document.getElementById("library_tbl");
+  const tbl_div = document.getElementById("tbl_div");
+
+  if (tbl == null) {
+    tbl = document.createElement('table');
+    createHeaders(tbl)
+    let new_tbody = tbl.appendChild(document.createElement('tbody'));
+    tbl.setAttribute('id', 'library_tbl');
+    tbl.style.width = '100px';
+    tbl.style.border = '1px solid black';
+    fillCells(new_tbody)
+    tbl_div.appendChild(tbl);
+  } else {
+    let new_tbody = tbl.appendChild(document.createElement('tbody'));
+    let old_tbody = document.getElementsByTagName("tbody")[0];
+    fillCells (new_tbody);
+    old_tbody.parentNode.replaceChild(new_tbody, old_tbody);
+  }
 }
 
+function deleteForm() {
+  let new_form = document.body.appendChild(document.createElement('p'));
+  new_form.setAttribute('id', 'frm_dwn');
+  let old_form = document.getElementById("frm_dwn");
+  console.log("test");
+  console.log(new_form);
+  console.log(old_form);
+  old_form.parentNode.replaceChild(new_form, old_form);
+}
 
-addBookToLibrary('The Hobbit', 'J.R.R. Tolkien', 295, false)
-addBookToLibrary('test title', 'test author', 15, true)
+function createForm() {
+  let down = document.getElementById("frm_dwn");
+              
+  // Create a break line element
+  let br = document.createElement("br"); 
+  function frm_crt_fun() {
+                
+    // Create a form synamically
+    var form = document.createElement("form");
 
-insertAllBooksInLibraryInTable()
+    // Create an input element for title
+    var frm_title = document.createElement("input");
+    frm_title.setAttribute("type", "text");
+    frm_title.setAttribute("name", "title");
+    frm_title.setAttribute("placeholder", "book name");
+
+    // Create an input element for author
+    var frm_author = document.createElement("input");
+    frm_author.setAttribute("type", "text");
+    frm_author.setAttribute("name", "author");
+    frm_author.setAttribute("placeholder", "book author");
+
+    // Create an input element for pages
+    var frm_pages = document.createElement("input");
+    frm_pages.setAttribute("type", "number");
+    frm_pages.setAttribute("name", "pages");
+
+    // Create an input element for read
+    var frm_read = document.createElement("input");
+    frm_read.setAttribute("type", "checkbox");
+    frm_read.setAttribute("name", "read");
+
+    // create a submit button
+    var s = document.createElement("button");
+    
+    s.setAttribute("type", "button");
+    s.innerHTML = "Add Book";
+                  
+    // Append the full name input to the form
+    form.appendChild(frm_title); 
+      
+    // Inserting a line break
+    form.appendChild(br.cloneNode()); 
+      
+    // Append the DOB to the form
+    form.appendChild(frm_author); 
+    form.appendChild(br.cloneNode()); 
+      
+    // Append the emailID to the form
+    form.appendChild(frm_pages); 
+    form.appendChild(br.cloneNode()); 
+      
+    // Append the Password to the form
+    form.appendChild(frm_read); 
+    form.appendChild(br.cloneNode()); 
+      
+    // Append the submit button to the form
+    form.appendChild(s);
+    s.addEventListener("click", () => {
+      addBookToLibrary(frm_title.value, frm_author.value, frm_pages.value, frm_read.checked);
+      insertAllBooksInLibraryInTable();
+      deleteForm();
+    });
+
+    down.appendChild(form);
+  }
+  frm_crt_fun()
+}
+
+addBookToLibrary('The Hobbit', 'J.R.R. Tolkien', 295, false);
+addBookToLibrary('test title', 'test author', 15, true);
+insertAllBooksInLibraryInTable();
