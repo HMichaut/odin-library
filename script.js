@@ -1,19 +1,20 @@
 let myLibraryJSON = localStorage.getItem('testObject');
 let myLibrary = [];
 
+class Book {
+  constructor(title, author, pages, read) {
+    this.title = title;
+    this.author = author;
+    this.pages = pages;
+    this.read = read;
+  }
+}
+
 if (myLibraryJSON !== null) {
   for (let i = 0; i < JSON.parse(myLibraryJSON).length; i++) {
     item = JSON.parse(myLibraryJSON)[i];
     myLibrary.push(new Book(item.title, item.author, item.pages, item.read));
   }
-}
-
-
-function Book(title, author, pages, read) {
-  this.title = title
-  this.author = author
-  this.pages = pages
-  this.read = read
 }
 
 function addBookToLibrary(title, author, pages, read) {
@@ -22,21 +23,21 @@ function addBookToLibrary(title, author, pages, read) {
 }
 
 function createHeaders(table) {
-  let orderArrayHeader = ["Title","Author","Pages","Read?", "Delete", "Read!"];
+  let orderArrayHeader = ["Title", "Author", "Pages", "Read?", "Delete", "Read!"];
   let thead = document.createElement('thead');
   table.appendChild(thead);
-  
-  for(var i=0;i<orderArrayHeader.length;i++){
+
+  for (var i = 0; i < orderArrayHeader.length; i++) {
     const th = thead.appendChild(document.createElement("th"));
     th.appendChild(document.createTextNode(orderArrayHeader[i]));
     th.style.border = '1px solid black';
   }
 }
 
-function fillCells (tbody) {
+function fillCells(tbody) {
   for (let i = 0; i < myLibrary.length; i++) {
     const tr = tbody.insertRow();
-    Object.keys(myLibrary[i]).forEach(function(key, j) {
+    Object.keys(myLibrary[i]).forEach(function (key, j) {
       const td = tr.insertCell();
       td.appendChild(document.createTextNode(myLibrary[i][key]));
       td.style.border = '1px solid black';
@@ -84,7 +85,7 @@ function insertAllBooksInLibraryInTable() {
   } else {
     let new_tbody = tbl.appendChild(document.createElement('tbody'));
     let old_tbody = document.getElementsByTagName("tbody")[0];
-    fillCells (new_tbody);
+    fillCells(new_tbody);
     old_tbody.parentNode.replaceChild(new_tbody, old_tbody);
   }
 }
@@ -98,16 +99,16 @@ function deleteForm() {
 
 function createForm() {
   let down = document.getElementById("frm_dwn");
-              
+
   // Create a break line element
-  let br = document.createElement("br"); 
+  let br = document.createElement("br");
   function frm_crt_fun() {
-                
+
     // Create a form synamically
     let form = document.createElement("form");
 
     let label_title = document.createElement("Label");
-    label_title.innerHTML="Book Title";
+    label_title.innerHTML = "Book Title";
 
     // Create an input element for title
     let frm_title = document.createElement("input");
@@ -116,7 +117,7 @@ function createForm() {
     frm_title.setAttribute("placeholder", "book name");
 
     let label_author = document.createElement("Label");
-    label_author.innerHTML="Author Name";
+    label_author.innerHTML = "Author Name";
 
     // Create an input element for author
     let frm_author = document.createElement("input");
@@ -125,7 +126,7 @@ function createForm() {
     frm_author.setAttribute("placeholder", "book author");
 
     let label_pages = document.createElement("Label");
-    label_pages.innerHTML="Pages Number";
+    label_pages.innerHTML = "Pages Number";
 
     // Create an input element for pages
     let frm_pages = document.createElement("input");
@@ -133,7 +134,7 @@ function createForm() {
     frm_pages.setAttribute("name", "pages");
 
     let label_read = document.createElement("Label");
-    label_read.innerHTML="Book Read?";
+    label_read.innerHTML = "Book Read?";
 
     // Create an input element for read
     let frm_read = document.createElement("input");
@@ -142,46 +143,46 @@ function createForm() {
 
     // create a submit button
     let s = document.createElement("button");
-    
+
     s.setAttribute("type", "button");
     s.innerHTML = "Add Book";
-                  
+
     // Append the full name input to the form
     form.appendChild(label_title);
-    form.appendChild(br.cloneNode()); 
-    form.appendChild(frm_title); 
-      
+    form.appendChild(br.cloneNode());
+    form.appendChild(frm_title);
+
     // Inserting a line break
-    form.appendChild(br.cloneNode()); 
-    form.appendChild(br.cloneNode()); 
-      
+    form.appendChild(br.cloneNode());
+    form.appendChild(br.cloneNode());
+
     // Append the DOB to the form
     form.appendChild(label_author);
-    form.appendChild(br.cloneNode()); 
-    form.appendChild(frm_author); 
+    form.appendChild(br.cloneNode());
+    form.appendChild(frm_author);
 
     // Inserting a line break
-    form.appendChild(br.cloneNode()); 
-    form.appendChild(br.cloneNode()); 
-      
+    form.appendChild(br.cloneNode());
+    form.appendChild(br.cloneNode());
+
     // Append the emailID to the form
     form.appendChild(label_pages);
-    form.appendChild(br.cloneNode()); 
-    form.appendChild(frm_pages); 
+    form.appendChild(br.cloneNode());
+    form.appendChild(frm_pages);
 
     // Inserting a line break
-    form.appendChild(br.cloneNode()); 
-    form.appendChild(br.cloneNode()); 
-      
+    form.appendChild(br.cloneNode());
+    form.appendChild(br.cloneNode());
+
     // Append the Password to the form
     form.appendChild(label_read);
     form.appendChild(br.cloneNode());
-    form.appendChild(frm_read); 
+    form.appendChild(frm_read);
 
     // Inserting a line break
-    form.appendChild(br.cloneNode()); 
-    form.appendChild(br.cloneNode()); 
-      
+    form.appendChild(br.cloneNode());
+    form.appendChild(br.cloneNode());
+
     // Append the submit button to the form
     form.appendChild(s);
     s.addEventListener("click", () => {
@@ -195,6 +196,4 @@ function createForm() {
   frm_crt_fun()
 }
 
-// addBookToLibrary('The Hobbit', 'J.R.R. Tolkien', 295, false);
-// addBookToLibrary('test title', 'test author', 15, true);
 insertAllBooksInLibraryInTable();
